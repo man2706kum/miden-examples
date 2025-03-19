@@ -1,5 +1,20 @@
+use.std::sys
+
 begin
+    # push 2 u256 numbers as limbs of u32
+    # number of limbs = 256/32 = 8
+
+    # number a
+    # 4294967295 = u32::MAX
+    push.0.4294967295.2.3.4.5.6.7
+
+    # number b
+    push.0.1.2.3.4.5.6.7
+    
+    # call for addition a+b
     call.{add_u256}
+
     debug.stack
+    exec.sys::truncate_stack
 
 end

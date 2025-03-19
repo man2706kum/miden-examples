@@ -2,10 +2,5 @@ use.std::math::u256
 use.std::sys
 
 export.add_u256
-    push.0.1.2.3.4.5.6.7
-    push.0.1.2.3.4.5.6.7
-    
     exec.u256::add_unsafe
-    exec.sys::truncate_stack
-    
 end
