@@ -1,0 +1,70 @@
+# Schnorr’s Protocol: Proof of Knowledge of Discrete Log
+# Suppose that a prover wants to prove it knows the discrete logarithm x of some group element h = g^x ∈ G,
+# where G is a group of prime order q
+
+# =============================================
+# verification protocol
+# =============================================
+# https://crypto.stanford.edu/cs355/19sp/lec5.pdf
+# section: 3.1
+
+# verifier input: g, h, proof=(u,c,z)
+# checks: 
+#   1. c =? Hash(g,h,u)
+#   2. g^z =? u * h^c
+use.std::math::ecgfp5::group
+use.std::sys
+use.std::crypto::hashes::sha256
+
+export.calculate_challenge.36
+    loc_loadw.0
+    loc_loadw.4
+    loc_loadw.8
+    loc_loadw.12
+    exec.sha256::hash_2to1
+
+    loc_loadw.16
+    loc_loadw.20
+    exec.sha256::hash_2to1
+
+    loc_loadw.24
+    loc_loadw.28
+    exec.sha256::hash_2to1
+
+    loc_loadw.32
+    exec.sha256::hash_2to1
+end
+
+export.verify_schnorr.48
+    
+    # stack: g, h, u, c, z in order total 53 u32
+    # stack: [
+    #           x1_0, x1_1, x1_2, x1_3, x1_4, y1_0, y1_1, y1_2, y1_3, y1_4, inf1, 
+    #           x2_0, x2_1, x2_2, x2_3, x2_4,. y2_0, y2_1, y2_2, y2_3, y2_4, inf2,
+    #           x3_0, x3_1,. x3_2, x3_3, x3_4, y3_0, y3_1, y3_2, y3_3, y3_4,. inf3,
+    #           b0, b1, b2, b3, b4, b5, b6, b7, b8, b9,
+    #           c0, c1, c2, c3, c4, c5, c6, c7, c8, c9,
+    #        ]
+
+    # stores values in fragmants
+    # loc_storew.0
+    loc_storew.0
+    loc_storew.4
+    loc_storew.8
+    loc_storew.12
+    loc_storew.16
+    loc_storew.20
+    loc_storew.24
+    loc_storew.28
+    loc_storew.32
+    loc_storew.36
+    loc_storew.40
+    loc_storew.44
+    loc_store.45
+
+    # current stack: []
+    exec.calculate_challenge
+    
+    # exec.group::add
+    exec.sys::truncate_stack
+end

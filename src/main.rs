@@ -1,5 +1,6 @@
 pub mod add_u256;
 pub mod utils;
+pub mod schnorr;
 
 use miden_client::ClientError;
 use std::env;
@@ -11,6 +12,7 @@ async fn main() -> Result<(), ClientError> {
 
     match name.as_str() {
         "add_u256" => add_u256::add_u256().await,
+        "schnorr" => schnorr::verify_schnorr().await,
         &_ => todo!(),
     }
 }

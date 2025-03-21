@@ -17,7 +17,7 @@ use rand_chacha::ChaCha20Rng;
 use rand_chacha::rand_core::SeedableRng;
 use tokio::time::Duration;
 
-pub async fn add_u256() -> Result<(), ClientError> {
+pub async fn verify_schnorr() -> Result<(), ClientError> {
     // Initialize client
     let mut client = initialize_client().await?;
     println!("Client initialized successfully.");
@@ -32,7 +32,7 @@ pub async fn add_u256() -> Result<(), ClientError> {
     println!("\n[STEP 1] Creating contract.");
 
     // Load the MASM file for the contract
-    let file_path = Path::new("./masm/accounts/add_u256.masm");
+    let file_path = Path::new("./masm/accounts/schnorr.masm");
     let account_code = fs::read_to_string(file_path).unwrap();
 
     // Prepare assembler (debug mode = true)
@@ -84,7 +84,7 @@ pub async fn add_u256() -> Result<(), ClientError> {
     let get_add_export = component
         .library()
         .exports()
-        .find(|export| export.name.as_str() == "add_u256")
+        .find(|export| export.name.as_str() == "verify_schnorr")
         .unwrap();
 
     let get_add_mast_id = component.library().get_export_node_id(get_add_export);
@@ -105,11 +105,11 @@ pub async fn add_u256() -> Result<(), ClientError> {
     println!("\n[STEP 2] Call Contract With Script");
 
     // Load the MASM script referencing the increment procedure
-    let file_path = Path::new("./masm/scripts/add_u256_script.masm");
+    let file_path = Path::new("./masm/scripts/schnorr_script.masm");
     let original_code = fs::read_to_string(file_path).unwrap();
 
     // Replace the placeholder with the actual procedure call
-    let replaced_code = original_code.replace("{add_u256}", &add_hash);
+    let replaced_code = original_code.replace("{verify_schnorr}", &add_hash);
     println!("Final script:\n{}", replaced_code);
 
     // Compile the script referencing our procedure

@@ -2,5 +2,6 @@ use.std::math::u256
 use.std::sys
 
 export.add_u256
+    # stack: [a0,a1,a2,...a7,b0,b1,b2,...,b7,...]
     exec.u256::add_unsafe
 end
